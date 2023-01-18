@@ -4,20 +4,12 @@ from tkinter import filedialog
 import os
 import random
 
-
-
 import random
+
 
 def create_template(logo_path, phone, instagram, text):
     # Open the template image
     img = Image.new('RGB', (1200, 628), color=(255, 255, 255))
-    # Add logo and information to templates
-    try:
-        logo = Image.open(logo_path)
-        logo = logo.resize((250, 250))
-        img.alpha_composite(logo, (50, 50))
-    except:
-        print("Error opening logo file")
 
     try:
         info = Image.new('RGB', (400, 200), color=(255, 255, 255))
@@ -40,7 +32,13 @@ def create_template(logo_path, phone, instagram, text):
         img.paste(img_temp, (200, 100))
     except:
         print("Error opening photo files")
-
+        # Add logo and information to templates
+    try:
+        logo = Image.open(logo_path)
+        logo = logo.resize((250, 250))
+        img.paste(logo, (50, 50))
+    except:
+        print("Error opening logo file")
     # save the template
     try:
         file_name = "template_with_information.jpg"
@@ -54,11 +52,11 @@ def create_template(logo_path, phone, instagram, text):
         print("Error saving template")
 
 
-
 def select_logo():
     logo_path = filedialog.askopenfilename()
     logo_path_label.config(text=logo_path)
     return logo_path
+
 
 def create_template_gui():
     logo_path = logo_path_label.cget("text")
