@@ -7,8 +7,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 # Prerequisites
 You will need to have Python and pip installed on your machine. You can check if you have them by running the following commands in your command line:
+```
   python --version
   pip --version
+  ```
 # Installing
 First, clone the repository to your local machine:
 ```
