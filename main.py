@@ -43,7 +43,6 @@ def create_template(logo_path, phone, instagram, text):
                 x_coordinate += 800
     except:
         print("Error opening photo files")
-
     # save the template
     try:
         file_name = "template_with_information.jpg"
@@ -106,3 +105,4 @@ success_label = tk.Label(root, text="")
 success_label.pack()
 
 root.mainloop()
+##commit tag
