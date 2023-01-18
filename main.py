@@ -2,7 +2,11 @@ import tkinter as tk
 from PIL import Image, ImageDraw, ImageFont
 from tkinter import filedialog
 import os
+import random
 
+
+
+import random
 
 def create_template(logo_path, phone, instagram, text):
     # Open the template image
@@ -11,7 +15,7 @@ def create_template(logo_path, phone, instagram, text):
     try:
         logo = Image.open(logo_path)
         logo = logo.resize((250, 250))
-        img.paste(logo, (50 ,50))
+        img.alpha_composite(logo, (50, 50))
     except:
         print("Error opening logo file")
 
@@ -26,23 +30,17 @@ def create_template(logo_path, phone, instagram, text):
     except:
         print("Error adding information to template")
 
-    # Add photos to templates
+    # Add a random photo from the photos_list to the template
     try:
         photos_list = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg', 'photo6.jpg', 'photo7.jpg',
                        'photo8.jpg']
-        x_coordinate = 200
-        y_coordinate = 100
-        for i, photo in enumerate(photos_list):
-            img_temp = Image.open(photo)
-            img_temp = img_temp.resize((800, 400))
-            img.paste(img_temp, (x_coordinate, y_coordinate))
-            if (i + 1) % 2 == 0:
-                y_coordinate += 400
-                x_coordinate = 200
-            else:
-                x_coordinate += 800
+        random_photo = random.choice(photos_list)
+        img_temp = Image.open(random_photo)
+        img_temp = img_temp.resize((800, 400))
+        img.paste(img_temp, (200, 100))
     except:
         print("Error opening photo files")
+
     # save the template
     try:
         file_name = "template_with_information.jpg"
