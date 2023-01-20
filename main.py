@@ -4,12 +4,17 @@ from tkinter import filedialog
 import os
 import random
 
-import random
 
-
-def create_template(logo_path, phone, instagram, text):
+def create_template(logo_path, phone, instagram, text, photos_list):
     # Open the template image
     img = Image.new('RGB', (1200, 628), color=(255, 255, 255))
+    # Create a draw object
+    draw = ImageDraw.Draw(img)
+    # Draw a rectangle
+    draw.rectangle([200, 100, 600, 500], fill=(255, 255, 255), outline=(0, 0, 0))
+
+    # Draw a line
+    draw.line([200, 100, 600, 500], fill=(255, 0, 0), width=5)
 
     try:
         info = Image.new('RGB', (400, 200), color=(255, 255, 255))
@@ -24,8 +29,6 @@ def create_template(logo_path, phone, instagram, text):
 
     # Add a random photo from the photos_list to the template
     try:
-        photos_list = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg', 'photo6.jpg', 'photo7.jpg',
-                       'photo8.jpg']
         random_photo = random.choice(photos_list)
         img_temp = Image.open(random_photo)
         img_temp = img_temp.resize((800, 400))
@@ -58,13 +61,25 @@ def select_logo():
     return logo_path
 
 
+def select_photos():
+    photos_path = filedialog.askopenfilenames()  # allows user to select multiple photos
+    photos_path_label.config(text=",".join(photos_path))
+    return photos_path
+
+
 def create_template_gui():
     logo_path = logo_path_label.cget("text")
+    photos_list = photos_path_label.cget("text").split(',')
     phone = phone_entry.get()
     instagram = instagram_entry.get()
     text = text_entry.get()
-    create_template(logo_path, phone, instagram, text)
+    create_template(logo_path, phone, instagram, text, photos_list)
     success_label.config(text="Template created successfully!")
+
+# Move button callback
+def move_element(dx, dy):
+    # Move the rectangle or line by dx and dy
+    draw.move(dx, dy)
 
 
 root = tk.Tk()
@@ -75,6 +90,13 @@ logo_path_label.pack()
 
 select_logo_button = tk.Button(root, text="Select logo", command=select_logo)
 select_logo_button.pack()
+
+
+photos_path_label = tk.Label(root, text="No photos selected.")
+photos_path_label.pack()
+
+select_photos_button = tk.Button(root, text="Select photos", command=select_photos)
+select_photos_button.pack()
 
 phone_label = tk.Label(root, text="Phone number:")
 phone_label.pack()
@@ -93,6 +115,10 @@ text_label.pack()
 
 text_entry = tk.Entry(root)
 text_entry.pack()
+
+# Create move button in the GUI
+move_button = tk.Button(root, text="Move", command=lambda: move_element(10, 10))
+move_button.pack()
 
 create_template_button = tk.Button(root, text="Create template", command=create_template_gui)
 create_template_button.pack()
